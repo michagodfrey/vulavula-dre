@@ -4,23 +4,17 @@ import Link from 'next/link';
 
 import { getRecentPosts, getSimilarPosts } from '../services';
 
-const PostWidget = ({ categories, slug }) => {
-  const [relatedPosts, setRelatedPosts] = useState([]);
+const PostWidget = () => {
   const [recentPosts, setRecentPosts] = useState([]);
 
   useEffect(() => {
-    if (slug) {
-      getSimilarPosts(categories, slug)
-        .then((result) => setRelatedPosts(result));
-    } else {
-      getRecentPosts()
+    getRecentPosts()
         .then((result) => setRecentPosts(result));
-    }
-  }, [slug]);
+  }, []);
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 mb-8">
-      <h3 className="text-xl mb-b font-semibold border-b pb-4">{slug ? 'Related Posts' : 'Recent Posts'}</h3>
+      <h3 className="text-xl mb-b font-semibold border-b pb-4">Recent Posts</h3>
       {recentPosts.map((post) => (
         <div key={post.title} className="flex items-center w-full mb-4">
           <div className="w-16 flex-none">

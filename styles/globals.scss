@@ -63,3 +63,9 @@ a {
 * {
     box-sizing: border-box;
 }
+
+.author-img {
+    position: absolute;
+    top: -56px;
+    left: calc(50% - 50px);
+}

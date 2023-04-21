@@ -4,7 +4,6 @@ import { submitComment } from '../services';
 
 const CommentsForm = ({ slug }) => {
   const [error, setError] = useState(false);
-  const [localStorage, setLocalStorage] = useState(null);
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
   const commentEl = useRef();
@@ -13,10 +12,6 @@ const CommentsForm = ({ slug }) => {
   const storeDataEl = useRef();
 
   useEffect(() => {
-    // setLocalStorage(window.localStorage);
-    // const initialFormData = {
-    //   name: window.localStorage
-    // }
     nameEl.current.value = window.localStorage.getItem('name');
     emailEl.current.value = window.localStorage.getItem('email');
   }, [])

@@ -8,7 +8,7 @@ export default function Home({ posts }) {
     <div className="container mx-auto px-4 md:px-10 mb-8">
       <Head>
         <title>Vulavula Dre</title>
-        <link rel="icon" href="./public/faviocn.ico" />
+        <link rel="icon" href="../public/logo.jpg" />
       </Head>
       <FeaturedPosts />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">

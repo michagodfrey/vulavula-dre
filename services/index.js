@@ -32,9 +32,12 @@ export const getPosts = async () => {
             }
         }`;
 
-    const result = await request(graphqlAPI, query);
-
-    return result.postsConnection.edges;
+    try {
+      const result = await request(graphqlAPI, query);
+      return result.postsConnection.edges;
+    } catch (error) {
+      console.log(error.message);
+    }
 }
 
 export const getPostDetails = async (slug) => {
@@ -66,9 +69,12 @@ export const getPostDetails = async (slug) => {
         }
     `;
 
-    const result = await request(graphqlAPI, query, { slug });
-
-    return result.post;
+    try {
+      const result = await request(graphqlAPI, query, { slug });
+      return result.post;
+    } catch (error) {
+      console.log(error.message);
+    }
 };
 
 export const getRecentPosts = async () => {
@@ -88,9 +94,12 @@ export const getRecentPosts = async () => {
         }
     `;
 
-    const result = await request(graphqlAPI, query);
-
-    return result.posts;
+    try {
+      const result = await request(graphqlAPI, query);
+      return result.posts;
+    } catch (error) {
+      console.log(error.message);
+    }
 }
 
 export const getCategories = async () => {
@@ -103,21 +112,28 @@ export const getCategories = async () => {
         }
     `;
 
-    const result = await request(graphqlAPI, query);
-
-    return result.categories;
+    try {
+      const result = await request(graphqlAPI, query);
+      return result.categories;
+    } catch (error) {
+      console.log(error.message)
+    }
 }
 
 export const submitComment = async (obj) => {
-    const result = await fetch('/api/comments', {
-        method: 'POST',
+
+    try {
+      const result = await fetch("/api/comments", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(obj),
-    })
-
-    return result.json();
+      });
+      return result.json();
+    } catch (error) {
+      console.log(error.message);
+    }
 }
 
 export const getComments = async (slug) => {
@@ -130,10 +146,13 @@ export const getComments = async (slug) => {
       }
     }
   `;
-
-  const result = await request(graphqlAPI, query, { slug });
-
-  return result.comments;
+  
+  try {
+    const result = await request(graphqlAPI, query, { slug });
+    return result.comments;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const getFeaturedPosts = async () => {
@@ -156,9 +175,12 @@ export const getFeaturedPosts = async () => {
     }   
   `;
 
-  const result = await request(graphqlAPI, query);
-
-  return result.posts;
+  try {
+    const result = await request(graphqlAPI, query);
+    return result.posts;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const getCategoryPost = async (slug) => {
@@ -193,7 +215,10 @@ export const getCategoryPost = async (slug) => {
     }
   `;
 
-  const result = await request(graphqlAPI, query, { slug });
-
-  return result.postsConnection.edges;
+  try {
+    const result = await request(graphqlAPI, query, { slug });
+    return result.postsConnection.edges;
+  } catch (error) {
+    console.log(error.message);
+  }
 };

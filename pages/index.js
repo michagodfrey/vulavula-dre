@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { PostCard, Categories, PostWidget } from "../components";
+import { PostCard, Categories, PostWidget, Pages } from "../components";
 import { getPosts } from "../services";
 import FeaturedPosts from '../sections/FeaturedPosts';
 
@@ -9,6 +9,12 @@ export default function Home({ posts }) {
       <Head>
         <title>Vulavula Dre</title>
         <link rel="icon" href="../public/logo.jpg" />
+        <meta
+          name="description"
+          content="A blog authored by Luke Uluiburoto. 
+          Vulavula Dre is the name of Luke's late great-grandfather 
+          in the Fijian villiage of Namalata Kubulau Bau."
+        />
       </Head>
       <FeaturedPosts />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -20,6 +26,7 @@ export default function Home({ posts }) {
         <div className="lg:col-span-4 col-span-1">
           <div className="lg:sticky relative top-8">
             <PostWidget />
+            <Pages />
             <Categories />
           </div>
         </div>

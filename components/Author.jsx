@@ -1,4 +1,5 @@
 import React from 'react';
+import SocialIcons from './SocialIcons';
 
 const Author = ({ author }) => {
   return (
@@ -7,7 +8,8 @@ const Author = ({ author }) => {
         <img src={author.photo.url} alt={author.name} height="100px" width="100px" className="rounded-full" />
       </div>
       <h3 className="text-white my-4 text-xl font-bold">{author.name}</h3>
-      <p className="text-white text-lg">{author.bio}</p>
+      <p className="text-white text-lg mb-8">{author.bio}</p>
+      <SocialIcons />
     </div>
   )
 }

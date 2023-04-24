@@ -222,3 +222,24 @@ export const getCategoryPost = async (slug) => {
     console.log(error.message);
   }
 };
+
+export const getGalleries = async () => {
+  const query = gql`
+    query GetGalleries {
+      galleries {
+        title
+        images {
+          url
+          fileName
+        }
+      }
+    }
+  `;
+
+  try {
+    const result = await request(graphqlAPI, query);
+    return result.galleries;
+  } catch (error) {
+    console.log(error.message);
+  }
+};

@@ -19,7 +19,6 @@ const Categories = () => {
           <span className="cursor-pointer block pb-3 mb-3 transition-colors hover:text-blue-500">{category.name}</span>
         </Link>
       ))}
-      
     </div>
   )
 }

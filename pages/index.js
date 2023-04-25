@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import { PostCard, Categories, PostWidget, Pages } from "../components";
+import { PostCard, Categories, PostWidget, Pages, FeaturedPosts, Newsletter } from "../components";
 import { getPosts } from "../services";
-import FeaturedPosts from '../sections/FeaturedPosts';
 
 export default function Home({ posts }) {
   return (
@@ -27,6 +26,7 @@ export default function Home({ posts }) {
           <div className="lg:sticky relative top-8">
             <PostWidget />
             <Pages />
+            <Newsletter />
             <Categories />
           </div>
         </div>

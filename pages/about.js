@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import { PostWidget, Categories, SocialIcons, Pages } from "../components";
+import { PostWidget, Categories, SocialIcons, Pages, Newsletter } from "../components";
 import BannerImg from "../public/banner-cropped.jpg";
 import VulavulaDre from "../public/vulavula-dre.jpg"
 
@@ -63,6 +63,7 @@ const About = () => {
         <div className="col-span-1 lg:col-span-4">
           <div className="relative lg:sticky top-8">
             <PostWidget />
+            <Newsletter />
             <Pages />
             <Categories />
           </div>

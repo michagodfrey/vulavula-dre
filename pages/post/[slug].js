@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { getPosts, getPostDetails } from '../../services';
 
-import { PostDetail, Categories, PostWidget, Author, Comments, CommentsForm, Loader, Pages } from '../../components';
+import { PostDetail, Categories, PostWidget, Author, Comments, CommentsForm, Loader, Pages, Newsletter } from '../../components';
 
 const PostDetails = ({ post }) => {
   const router = useRouter();
@@ -25,6 +25,7 @@ const PostDetails = ({ post }) => {
           <div className="relative lg:sticky top-8">
             <PostWidget />
             <Pages />
+            <Newsletter />
             <Categories />
           </div>
         </div>

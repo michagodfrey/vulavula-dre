@@ -10,20 +10,20 @@ import EnvelopeIcon from '../public/icons/envelope.svg';
 const SocialIcons = () => {
   return (
     <div className="flex">
-        <Link href="https://www.facebook.com/groups/510896943433875.uluiburotu.777" className="mr-4 hover:-translate-y-3 transition-transform bg-white">
+        <Link href="https://www.facebook.com/groups/510896943433875.uluiburotu.777" className="mr-4 hover:-translate-y-2 transition-transform bg-white">
             <Image src={FacebookIcon} alt="Facebook logo" />
         </Link>
-        <Link href="https://www.instagram.com/accounts/login/?next=%2Fbeyond_enterprise%2F&source=omni_redirect" className="mr-4 hover:-translate-y-3 transition-transform bg-white">
+        <Link href="https://www.instagram.com/accounts/login/?next=%2Fbeyond_enterprise%2F&source=omni_redirect" className="mr-4 hover:-translate-y-2 transition-transform bg-white">
             <Image src={InstagramIcon} alt="Instagram logo" />
         </Link>
-        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-3 transition-transform bg-white">
+        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-2 transition-transform bg-white">
             <Image src={ViberIcon} alt="Viber logo" />
         </Link>
-        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-3 transition-transform bg-white" >
+        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-2 transition-transform bg-white" >
             <Image src={WhatsappIcon} alt="Whatsapp logo" />
         </Link>
-        <Link href="mailto:keluburotu@gmail.com" className="hover:-translate-y-3 transition-transform bg-white">
-            <Image src={EnvelopeIcon} alt="Envelope logo" />
+        <Link href="mailto:keluburotu@gmail.com" className="hover:-translate-y-2 transition-transform bg-white">
+            <Image src={EnvelopeIcon} alt="Envelope icon" />
         </Link>
     </div>
   )

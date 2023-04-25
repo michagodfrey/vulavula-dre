@@ -230,7 +230,8 @@ export const getGalleries = async () => {
         title
         images {
           url
-          fileName
+          height
+          width
         }
       }
     }

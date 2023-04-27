@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { PostCard, Categories, PostWidget, Pages, FeaturedPosts, Newsletter } from "../components";
+
 import { getPosts } from "../services";
 
 export default function Home({ posts }) {
@@ -18,7 +19,15 @@ export default function Home({ posts }) {
       <FeaturedPosts />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-8 col-span-1">
-          {posts.map((post, index) => (
+          {posts.sort((a, b) => {
+            if (a.node.date && b.node.date) {
+              return new Date(b.node.date) - new Date(a.node.date)
+            } else if (a.node.date || b.node.date) {
+              return b.node.date ? 1 : -1;
+            } else {
+              return new Date(b.node.createdAt) - new createdAt(a.node.createdAt);
+            }
+          }).map((post, index) => (
             <PostCard post={post.node} key={index} />
           ))}
         </div>

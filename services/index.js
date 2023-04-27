@@ -17,6 +17,7 @@ export const getPosts = async () => {
                         }
                         }
                         createdAt
+                        date
                         slug
                         title
                         excerpt
@@ -57,6 +58,7 @@ export const getPostDetails = async (slug) => {
                 }
                 }
                 createdAt
+                date
                 slug
                 content {
                     raw
@@ -89,6 +91,7 @@ export const getRecentPosts = async () => {
                     url
                 }
                 createdAt
+                date
                 slug
             }
         }
@@ -171,6 +174,7 @@ export const getFeaturedPosts = async () => {
         title
         slug
         createdAt
+        date
       }
     }   
   `;
@@ -199,6 +203,7 @@ export const getCategoryPost = async (slug) => {
               }
             }
             createdAt
+            date
             slug
             title
             excerpt

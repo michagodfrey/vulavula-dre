@@ -1,30 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const Newsletter = () => {
-  const inputEl = useRef(null);
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [subscribed, setSubscribed] = useState(false)
 
-   const subscribe = async (e) => {
+  const url = '/api/newsletter';
+
+    const subscribe = async (e) => {
     e.preventDefault();
- 
+
     try {
-      const res = await fetch('/api/subscribe', {
-      body: JSON.stringify({
-        email: inputEl.current.value,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
+      const response = await axios.post('/api/newsletter', email);
+
+      console.log(response);
+      setSubscribed(true);
+      setEmail('');
+
     } catch (error) {
       console.log(error.message);
-      setMessage(error.message);
-      return;
+      setErrorMessage(error.message)
     }
-    
-    inputEl.current.value = '';
-    setMessage('Success! 🎉 You are now subscribed to the newsletter.');
   };
 
   return (
@@ -38,7 +35,7 @@ const Newsletter = () => {
         id="email-input"
         name="email"
         placeholder="you@awesome.com"
-        ref={inputEl}
+        onChange={(e) => setEmail(e.target.value)}
         required
         type="email"
         className="py-2 px-4 mb-3 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
@@ -46,9 +43,16 @@ const Newsletter = () => {
       />
       <button type="submit" className="transition duration-500 transform hover:-translate-y-1 inline-block bg-pink-600 text-lg font-medium rounded-full text-white px-8 py-3">{'✨ Subscribe 💌'}</button>
       <div className=" mt-2 text-xs text-gray-600"> 
-        {message
-          ? message
-          : `I'll only send emails when new content is posted. No spam.`}
+        {
+          errorMessage
+          ? <p><span className= "text-red-500">{errorMessage}</span> Oh no! Sorry about that. Email me at keluburotu@gmail.com and I'll add you to the list.</p>
+          : subscribed
+          ? <p className= "text-green-500">Subscribed to Vulavula Dre!</p>
+          : <p>I'll only send emails when new content is posted. No spam.</p>
+        }
+            
+
+
       </div>
     </form>
     </div>
@@ -56,3 +60,4 @@ const Newsletter = () => {
 }
 
 export default Newsletter
+

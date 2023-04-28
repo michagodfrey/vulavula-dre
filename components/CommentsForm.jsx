@@ -31,7 +31,6 @@ const CommentsForm = ({ slug }) => {
 
     const commentObj = { name, email, comment, slug }
 
-    // window not in final version see https://github.com/adrianhajdin/project_graphql_blog/blob/main/components/CommentsForm.jsx
     if (storeData) {
       window.localStorage.setItem('name', name);
       window.localStorage.setItem('email', email);

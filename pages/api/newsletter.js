@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export default async function handler(req, res) {
+export default async (req, res) => {
     const email = req.body;
-
+    
     if (!email || !email.length) {
       res.status(400).json({ error: "Please enter an email address" });
     }
@@ -26,26 +26,16 @@ export default async function handler(req, res) {
     }
 
     try {
-
       const response = await axios.post(url, data, options);
       console.log(data)
-
-      if (response.status >= 400) {
-        return res.status(400).json({
-          error:
-            "Oops :( There was an error subscribing. Email me at keluburotu@gmail.com and I'll sign you up.",
-        });
-      }
 
       return res.status(201).json({
         message: 'Success!'
       })
 
-
     } catch (error) {
-      console.log(error.message)
+      console.log('error on server side:', error.message)
       return res.status(500).json({ error: error.message })
-
     }
 }
 

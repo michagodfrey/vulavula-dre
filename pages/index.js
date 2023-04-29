@@ -64,7 +64,7 @@ export default function Home({ posts }) {
               pageClassName={
                 "px-3 py-2 leading-tight text-gray-500 text-xl bg-white border border-gray-300 hover:bg-pink-600 hover:text-white"
               }
-              activeClassName={"text-white bg-indigo-900"}
+              activeClassName={"active-pag-btn"}
             />
           </div>
         </div>

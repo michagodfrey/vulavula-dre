@@ -8,7 +8,7 @@ const PostCard = ({ post }) => {
         <div className="relative overflow-hidden shadow-md pb-80 mb-6">
             <img src={post.featuredImage?.url} alt={post.title} className="object-top absolute h-80 w-full object-cover shadow-lg rounded-t-lg lg:rounded-lg" />
         </div>
-        <h2 className="transition duration-700 text-center mb-8 cursor-pointer hover:text-pink-600 text-3xl font-semibold">
+        <h2 className="transition duration-700 text-center mb-8 mx-4 cursor-pointer hover:text-pink-600 text-3xl font-semibold">
           <Link href={`/post/${post.slug}`}>{post.title}</Link>
         </h2>
         <div className="block lg:flex text-center items-center justify-center mb-8 w-full">

@@ -10,19 +10,19 @@ import EnvelopeIcon from '../public/icons/envelope.svg';
 const SocialIcons = () => {
   return (
     <div className="flex">
-        <Link href="https://www.facebook.com/groups/510896943433875.uluiburotu.777" className="mr-4 hover:-translate-y-2 transition-transform bg-white rounded-xl">
+        <Link href="https://www.facebook.com/groups/510896943433875.uluiburotu.777" className="mr-4 hover:-translate-y-1 transition-transform bg-white rounded-xl">
             <Image src={FacebookIcon} alt="Facebook logo" className="rounded-lg" />
         </Link>
-        <Link href="https://www.instagram.com/accounts/login/?next=%2Fbeyond_enterprise%2F&source=omni_redirect" className="mr-4 hover:-translate-y-2 transition-transform bg-white rounded-xl">
+        <Link href="https://www.instagram.com/accounts/login/?next=%2Fbeyond_enterprise%2F&source=omni_redirect" className="mr-4 hover:-translate-y-1 transition-transform bg-white rounded-xl">
             <Image src={InstagramIcon} alt="Instagram logo" className="rounded-lg" />
         </Link>
-        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-2 transition-transform bg-white rounded-xl">
+        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-1 transition-transform bg-white rounded-xl">
             <Image src={ViberIcon} alt="Viber logo" className="rounded-lg" />
         </Link>
-        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-2 transition-transform bg-white rounded-xl" >
+        <Link href="tel:+6799749762" className="mr-4 hover:-translate-y-1 transition-transform bg-white rounded-xl" >
             <Image src={WhatsappIcon} alt="Whatsapp logo" className="rounded-lg" />
         </Link>
-        <Link href="mailto:keluburotu@gmail.com" className="hover:-translate-y-2 transition-transform bg-white rounded-xl">
+        <Link href="mailto:keluburotu@gmail.com" className="hover:-translate-y-1 transition-transform bg-white rounded-xl">
             <Image src={EnvelopeIcon} alt="Envelope icon" className="rounded-lg" />
         </Link>
     </div>

@@ -46,6 +46,9 @@ const CommentsForm = ({ slug }) => {
           setShowSuccessMsg(false);
         }, 3000)
       })
+      .catch((error) => {
+        console.log(error.message);
+      });
   }
 
   return (

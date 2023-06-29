@@ -4,6 +4,10 @@ Vulavula Dre is a blog authored by Luke Uluiburoto. Vulavula Dre is the name of 
 
 [Live site here](https://vulavula-dre.vercel.app/)
 
+## Author
+
+Luke Uluiburoro [Instagram](https://www.instagram.com/accounts/login/?next=%2Fbeyond_enterprise%2F&source=omni_redirect)
+
 ## Built with
 
 ### Tech

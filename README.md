@@ -23,3 +23,7 @@ Content is hosted on [Hygraph](https://hygraph.com/).
 This project was started by following this [tutorial by JS Mastery](https://www.youtube.com/watch?v=HYv55DhgTuA).
 
 Social media icon svgs from [SVG Repo](https://www.svgrepo.com/)
+
+## Latest Post
+
+[Break out of my shell, remove wasteage and poverty](https://vulavula-dre.vercel.app/post/break-out-of-my-shell-remove-wastage-and-poverty)

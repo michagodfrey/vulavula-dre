@@ -46,10 +46,18 @@ const PostDetails = ({ post }) => {
 export default PostDetails
 
 export async function getStaticProps({ params }) {
-  const data = await getPostDetails(params.slug)
+  const data = await getPostDetails(params.slug);
+
+  if (!data) {
+    // Return a 404 status if no data is found for the slug
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: { post: data },
+    revalidate: 60,
   };
 }
 
@@ -57,7 +65,7 @@ export async function getStaticPaths() {
     const posts = await getPosts();
 
     return {
-        paths: posts.map(({ node: { slug }}) => ({params: { slug }})),
-        fallback: false,
-    }
+      paths: posts.map(({ node: { slug } }) => ({ params: { slug } })),
+      fallback: "blocking", // Enables ISR for paths not pre-rendered at build time
+    };
 }

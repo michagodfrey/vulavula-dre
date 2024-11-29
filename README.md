@@ -6,7 +6,11 @@ Vulavula Dre is a blog authored by Luke Uluiburoto. Vulavula Dre is the name of 
 
 ## Author
 
-Luke Uluiburoro [Instagram](https://www.instagram.com/accounts/login/?next=%2Fbeyond_enterprise%2F&source=omni_redirect)
+Luke Uluiburoro. Socials:
+
+* [Instagram](https://www.instagram.com/accounts/login/?next=%2Fbeyond_enterprise%2F&source=omni_redirect)
+* [X](https://x.com/keluburotu)
+* [Facebook](https://www.facebook.com/groups/510896943433875.uluiburotu.777)
 
 ## Built with
 
@@ -23,7 +27,3 @@ Content is hosted on [Hygraph](https://hygraph.com/).
 This project was started by following this [tutorial by JS Mastery](https://www.youtube.com/watch?v=HYv55DhgTuA).
 
 Social media icon svgs from [SVG Repo](https://www.svgrepo.com/)
-
-## Latest Post
-
-[Break out of my shell, remove wasteage and poverty](https://vulavula-dre.vercel.app/post/break-out-of-my-shell-remove-wastage-and-poverty)

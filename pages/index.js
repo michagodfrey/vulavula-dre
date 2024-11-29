@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import ReactPaginate from 'react-paginate';
-import { PostCard, Categories, PostWidget, Pages, FeaturedPosts, Newsletter } from "../components";
+import { PostCard, Categories, PostWidget, Pages, FeaturedPosts } from "../components";
 
 import { getPosts } from "../services";
 
@@ -72,7 +72,6 @@ export default function Home({ posts }) {
           <div className="lg:sticky relative top-8">
             <PostWidget />
             <Pages />
-            <Newsletter />
             <Categories />
           </div>
         </div>

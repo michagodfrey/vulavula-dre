@@ -8,14 +8,6 @@ export const getPosts = async () => {
             postsConnection (first: 100) {
                 edges {
                     node {
-                        author {
-                        bio
-                        name
-                        id
-                        photo {
-                            url
-                        }
-                        }
                         createdAt
                         date
                         slug
@@ -49,13 +41,6 @@ export const getPostDetails = async (slug) => {
                 excerpt
                 featuredImage {
                     url
-                }
-                author {
-                    name
-                    bio
-                photo {
-                    url
-                }
                 }
                 createdAt
                 date
@@ -162,12 +147,6 @@ export const getFeaturedPosts = async () => {
   const query = gql`
     query GetCategoryPost() {
       posts(where: {featuredPost: true}, first: 100) {
-        author {
-          name
-          photo {
-            url
-          }
-        }
         featuredImage {
           url
         }
@@ -194,14 +173,6 @@ export const getCategoryPost = async (slug) => {
         edges {
           cursor
           node {
-            author {
-              bio
-              name
-              id
-              photo {
-                url
-              }
-            }
             createdAt
             date
             slug

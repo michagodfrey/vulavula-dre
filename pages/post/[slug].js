@@ -9,7 +9,6 @@ import {
   CommentsForm,
   Loader,
   Pages,
-  Newsletter,
 } from "../../components";
 
 import { getPosts, getPostDetails } from '../../services';
@@ -34,7 +33,6 @@ const PostDetails = ({ post }) => {
           <div className="relative lg:sticky top-8">
             <PostWidget />
             <Pages />
-            <Newsletter />
             <Categories />
           </div>
         </div>

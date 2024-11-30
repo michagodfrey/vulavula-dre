@@ -60,6 +60,19 @@ export default async function comments(req, res) {
     // Publish the comment
     await graphQLClient.request(publishCommentMutation, { id: commentId });
 
+    // Send email alert via Getform
+    const getformEndpoint =
+      "https://getform.io/f/7c1a6ab1-0cd7-42d3-8bf0-d9dc5f85fab6"; 
+    await fetch(getformEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: `New Comment on Vulavula-Dre by ${name}!`,
+        email: { email },
+        message: `A new comment has been posted by ${name}:\n\n"${comment}"\n\nat: https://vulavula-dre.vercel.app/post/${slug}`,
+      }),
+    });
+
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);

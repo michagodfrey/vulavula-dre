@@ -20,10 +20,14 @@ React, TailwindCSS, NextJS and GraphQL.
 
 ### Hosting and Backend
 
-Content is hosted on [Hygraph](https://hygraph.com/).
+Content is hosted on [Hygraph](https://hygraph.com/)
+
+### AI
+
+ChatGPT-4o used to improve UI.
 
 ## Acknowledgements and resources
 
 This project was started by following this [tutorial by JS Mastery](https://www.youtube.com/watch?v=HYv55DhgTuA).
 
-Social media icon svgs from [SVG Repo](https://www.svgrepo.com/)
+Social media icon svgs from [SVG Repo](https://www.svgrepo.com/) and [icons8](https://icons8.com/).

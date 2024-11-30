@@ -13,20 +13,8 @@ body {
         content: "";
         width: 100%;
         height: 100vh;
-        // default background
-        // background-image: linear-gradient(to right bottom, #6d327c, #485DA6, #00a1ba, #01b18e, #32b37b);
-        // Fiji sunset glow
-        // background-image: linear-gradient(to right bottom, #f12711, #f5af19, #fbd72b, #8fd3f4, #84fab0);
-        // ocean serenity
-        // background-image: linear-gradient(to right bottom, #0f2027, #203a43, #2c5364, #4ca1af, #a8e6cf);
-        // savusavu sunrise
-        // background-image: linear-gradient(to right bottom, #3a1c71, #d76d77, #ffaf7b, #72c2d1, #a2ffeb);
-        // emerald dream
-        // background-image: linear-gradient(to right bottom, #355c7d, #6c5b7b, #c06c84, #f67280, #f8b195);
         // island twilight
         background-image: linear-gradient(to right bottom, #1e3c72, #2a5298, #6dd5ed, #ffffff, #f7bb97);
-
-
         position: fixed;
         left: 0;
         top: 0;

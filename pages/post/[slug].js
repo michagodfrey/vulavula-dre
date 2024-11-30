@@ -1,5 +1,5 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import {
   PostDetail,
   Categories,
@@ -11,13 +11,31 @@ import {
   Pages,
 } from "../../components";
 
-import { getPosts, getPostDetails } from '../../services';
+import { getPosts, getPostDetails, getComments } from "../../services";
 
 const PostDetails = ({ post }) => {
   const router = useRouter();
 
+  const [comments, setComments] = useState([]);
+
+  // Fetch comments initially
+  useEffect(() => {
+    const fetchComments = async () => {
+      const newComments = await getComments(post.slug);
+      setComments(newComments);
+    };
+
+    fetchComments();
+  }, [post.slug]);
+
+  // Handle comment submission and refresh
+  const handleCommentSubmitted = async () => {
+    const newComments = await getComments(post.slug);
+    setComments(newComments);
+  };
+
   if (router.isFallback) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -26,8 +44,11 @@ const PostDetails = ({ post }) => {
         <div className="col-span-1 lg:col-span-8">
           <PostDetail post={post} />
           <Author author={post.author} />
-          <CommentsForm slug={post.slug} />
-          <Comments slug={post.slug} />
+          <CommentsForm
+            slug={post.slug}
+            onCommentSubmitted={handleCommentSubmitted}
+          />
+          <Comments comments={comments} />
         </div>
         <div className="col-span-1 lg:col-span-4">
           <div className="relative lg:sticky top-8">
@@ -39,9 +60,9 @@ const PostDetails = ({ post }) => {
       </div>
     </div>
   );
-}
+};
 
-export default PostDetails
+export default PostDetails;
 
 export async function getStaticProps({ params }) {
   const data = await getPostDetails(params.slug);
@@ -60,10 +81,10 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const posts = await getPosts();
+  const posts = await getPosts();
 
-    return {
-      paths: posts.map(({ node: { slug } }) => ({ params: { slug } })),
-      fallback: "blocking", // Enables ISR for paths not pre-rendered at build time
-    };
+  return {
+    paths: posts.map(({ node: { slug } }) => ({ params: { slug } })),
+    fallback: "blocking", // Enables ISR for paths not pre-rendered at build time
+  };
 }

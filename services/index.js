@@ -1,75 +1,76 @@
-import { request, gql } from 'graphql-request';
+import { request, gql } from "graphql-request";
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 
 export const getPosts = async () => {
-    const query = gql`
-        query Assets {
-            postsConnection (first: 100) {
-                edges {
-                    node {
-                        createdAt
-                        date
-                        slug
-                        title
-                        excerpt
-                        featuredImage {
-                            url
-                        }
-                        categories {
-                            name
-                            slug
-                        }
-                    }
-                }
+  const query = gql`
+    query Assets {
+      postsConnection(first: 100) {
+        edges {
+          node {
+            createdAt
+            date
+            slug
+            title
+            excerpt
+            featuredImage {
+              url
             }
-        }`;
-
-    try {
-      const result = await request(graphqlAPI, query);
-      return result.postsConnection.edges;
-    } catch (error) {
-      console.log(error.message);
+            categories {
+              name
+              slug
+            }
+          }
+        }
+      }
     }
-}
+  `;
+
+  try {
+    const result = await request(graphqlAPI, query);
+    return result.postsConnection.edges;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const getPostDetails = async (slug) => {
-    const query = gql`
-        query GetPostDetails($slug: String!) {
-            post(where: { slug: $slug }) {
-                title
-                excerpt
-                featuredImage {
-                    url
-                }
-                createdAt
-                date
-                slug
-                content {
-                    raw
-                }
-                categories {
-                    name
-                    slug
-                }
-            }
+  const query = gql`
+    query GetPostDetails($slug: String!) {
+      post(where: { slug: $slug }) {
+        title
+        excerpt
+        featuredImage {
+          url
         }
-    `;
-
-    try {
-      const result = await request(graphqlAPI, query, { slug });
-      return result.post;
-    } catch (error) {
-      console.log(error.message);
+        createdAt
+        date
+        slug
+        content {
+          raw
+        }
+        categories {
+          name
+          slug
+        }
+      }
     }
+  `;
+
+  try {
+    const result = await request(graphqlAPI, query, { slug });
+    return result.post;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const getRecentPosts = async () => {
-    const query = gql`
+  const query = gql`
         query GetPostDetails() {
             posts(
-                orderBy: createdAt_ASC
-                last: 3
+                orderBy: createdAt_DESC
+                first: 3
             ) {
                 title
                 featuredImage {
@@ -82,59 +83,58 @@ export const getRecentPosts = async () => {
         }
     `;
 
-    try {
-      const result = await request(graphqlAPI, query);
-      return result.posts;
-    } catch (error) {
-      console.log(error.message);
-    }
-}
+  try {
+    const result = await request(graphqlAPI, query);
+    return result.posts;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const getCategories = async () => {
-    const query = gql`
-        query GetCategories {
-            categories {
-                name
-                slug
-            }
-        }
-    `;
-
-    try {
-      const result = await request(graphqlAPI, query);
-      return result.categories;
-    } catch (error) {
-      console.log(error.message)
+  const query = gql`
+    query GetCategories {
+      categories {
+        name
+        slug
+      }
     }
-}
+  `;
+
+  try {
+    const result = await request(graphqlAPI, query);
+    return result.categories;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const submitComment = async (obj) => {
-
-    try {
-      const result = await fetch("/api/comments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(obj),
-      });
-      return result.json();
-    } catch (error) {
-      console.log(error.message);
-    }
-}
+  try {
+    const result = await fetch("/api/comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    });
+    return result.json();
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const getComments = async (slug) => {
   const query = gql`
     query GetComments($slug: String!) {
-      comments(where: {post: { slug: $slug } }) {
+      comments(where: { post: { slug: $slug } }) {
         name
         createdAt
         comment
       }
     }
   `;
-  
+
   try {
     const result = await request(graphqlAPI, query, { slug });
     return result.comments;

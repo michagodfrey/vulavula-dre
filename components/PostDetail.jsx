@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const PostDetail = ({ post }) => {
   // Debug log to see post structure
-  console.log("Post data:", post);
+  // console.log("Post data:", post);
 
   const getContentFragment = (index, text, obj, type) => {
     let modifiedText = text;
@@ -57,6 +57,17 @@ const PostDetail = ({ post }) => {
             width={obj.width}
             src={obj.src}
           />
+        );
+      case "block-quote":
+        return (
+          <blockquote
+            key={index}
+            className="border-l-4 border-pink-500 pl-4 italic text-gray-700 mb-8"
+          >
+            {modifiedText.map((item, i) => (
+              <React.Fragment key={i}>{item}</React.Fragment>
+            ))}
+          </blockquote>
         );
       default:
         return modifiedText;

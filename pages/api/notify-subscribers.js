@@ -1,0 +1,104 @@
+import { Resend } from "resend";
+import fs from "fs";
+import path from "path";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+const subscribersFile = path.join(process.cwd(), "data", "subscribers.json");
+
+const getSubscribers = () => {
+  try {
+    const data = fs.readFileSync(subscribersFile, "utf8");
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error reading subscribers:", error);
+    return [];
+  }
+};
+
+const sendEmail = async (to, subject, html) => {
+  try {
+    const data = await resend.emails.send({
+      from: "Vulavula Dre <noreply@vulavula-dre.vercel.app>",
+      to: [to],
+      subject: subject,
+      html: html,
+    });
+    console.log(`Email sent to ${to}:`, data);
+    return { success: true, data };
+  } catch (error) {
+    console.error(`Failed to send email to ${to}:`, error);
+    return { success: false, error: error.message };
+  }
+};
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { postTitle, postSlug, postExcerpt } = req.body;
+
+  if (!postTitle || !postSlug) {
+    return res.status(400).json({ error: "Post title and slug are required" });
+  }
+
+  const subscribers = getSubscribers();
+
+  if (subscribers.length === 0) {
+    return res.status(200).json({ message: "No subscribers to notify" });
+  }
+
+  const postUrl = `https://vulavula-dre.vercel.app/post/${postSlug}`;
+
+  const emailHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #333; margin-bottom: 10px;">Vulavula Dre</h1>
+        <p style="color: #666; font-style: italic;">A blog by Luke Uluiburoto</p>
+      </div>
+      
+      <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+        <h2 style="color: #333; margin-bottom: 15px;">New Blog Post: ${postTitle}</h2>
+        ${
+          postExcerpt
+            ? `<p style="color: #666; font-style: italic; margin-bottom: 20px;">${postExcerpt}</p>`
+            : ""
+        }
+        <p style="color: #333; margin-bottom: 20px;">A new post has been published on Vulavula Dre!</p>
+        <a href="${postUrl}" style="display: inline-block; background-color: #ec4899; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Read Full Post</a>
+      </div>
+      
+      <div style="text-align: center; color: #999; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+        <p>You're receiving this because you subscribed to Vulavula Dre blog updates.</p>
+        <p>To unsubscribe, reply to this email with "unsubscribe" in the subject line.</p>
+        <p style="margin-top: 10px;">
+          <a href="https://vulavula-dre.vercel.app" style="color: #999;">Visit Vulavula Dre</a>
+        </p>
+      </div>
+    </div>
+  `;
+
+  const emailPromises = subscribers.map((email) =>
+    sendEmail(email, `New Post: ${postTitle}`, emailHtml)
+  );
+
+  try {
+    const results = await Promise.all(emailPromises);
+    const successfulSends = results.filter((result) => result.success).length;
+    const failedSends = results.filter((result) => !result.success).length;
+
+    console.log(
+      `Email notification results: ${successfulSends} successful, ${failedSends} failed`
+    );
+
+    res.status(200).json({
+      message: `Notification sent to ${successfulSends} subscribers`,
+      totalSubscribers: subscribers.length,
+      successfulSends,
+      failedSends,
+    });
+  } catch (error) {
+    console.error("Error sending notifications:", error);
+    res.status(500).json({ error: "Failed to send notifications" });
+  }
+}

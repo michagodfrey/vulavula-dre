@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import Link from "next/link";
+import { Subscribe } from "./index";
 
 const PostDetail = ({ post }) => {
   // Debug log to see post structure
@@ -139,6 +140,11 @@ const PostDetail = ({ post }) => {
               return getContentFragment(index, children, typeObj, typeObj.type);
             })}
         </div>
+      </div>
+
+      {/* Subscribe Component */}
+      <div className="px-4 lg:px-0">
+        <Subscribe />
       </div>
     </div>
   );

@@ -12,3 +12,4 @@ export { default as Loader } from "./Loader";
 export { default as SocialIcons } from "./SocialIcons";
 export { default as Pages } from "./Pages";
 export { default as FeaturedPosts } from "./FeaturedPosts";
+export { default as Subscribe } from "./Subscribe";

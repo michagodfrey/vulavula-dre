@@ -1,19 +1,7 @@
 import { Resend } from "resend";
-import fs from "fs";
-import path from "path";
+import { getSupabaseAdminClient } from "../../services/supabaseServer";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const subscribersFile = path.join(process.cwd(), "data", "subscribers.json");
-
-const getSubscribers = () => {
-  try {
-    const data = fs.readFileSync(subscribersFile, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Error reading subscribers:", error);
-    return [];
-  }
-};
 
 const sendEmail = async (to, subject, html) => {
   try {
@@ -42,7 +30,17 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Post title and slug are required" });
   }
 
-  const subscribers = getSubscribers();
+  const supabase = getSupabaseAdminClient();
+  const { data: rows, error } = await supabase
+    .from("subscribers")
+    .select("email")
+    .eq("is_active", true);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  const subscribers = (rows || []).map((r) => r.email);
 
   if (subscribers.length === 0) {
     return res.status(200).json({ message: "No subscribers to notify" });

@@ -1,29 +1,4 @@
-import fs from "fs";
-import path from "path";
-
-const subscribersFile = path.join(process.cwd(), "data", "subscribers.json");
-
-// Ensure data directory exists
-const ensureDataDir = () => {
-  const dataDir = path.dirname(subscribersFile);
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-  if (!fs.existsSync(subscribersFile)) {
-    fs.writeFileSync(subscribersFile, JSON.stringify([]));
-  }
-};
-
-const getSubscribers = () => {
-  ensureDataDir();
-  const data = fs.readFileSync(subscribersFile, "utf8");
-  return JSON.parse(data);
-};
-
-const saveSubscribers = (subscribers) => {
-  ensureDataDir();
-  fs.writeFileSync(subscribersFile, JSON.stringify(subscribers, null, 2));
-};
+import { getSupabaseAdminClient } from "../../services/supabaseServer";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -33,29 +8,57 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Valid email is required" });
     }
 
-    const subscribers = getSubscribers();
+    const supabase = getSupabaseAdminClient();
 
     if (action === "subscribe") {
-      if (subscribers.includes(email)) {
-        return res.status(400).json({ error: "Email already subscribed" });
+      // Upsert to avoid duplicates
+      const { error } = await supabase
+        .from("subscribers")
+        .upsert({ email, is_active: true })
+        .select()
+        .single();
+
+      if (error) {
+        if (error.code === "23505") {
+          return res.status(400).json({ error: "Email already subscribed" });
+        }
+        return res.status(500).json({ error: error.message });
       }
-      subscribers.push(email);
-      saveSubscribers(subscribers);
+
       return res.status(200).json({ message: "Successfully subscribed!" });
     } else if (action === "unsubscribe") {
-      const index = subscribers.indexOf(email);
-      if (index > -1) {
-        subscribers.splice(index, 1);
-        saveSubscribers(subscribers);
-        return res.status(200).json({ message: "Successfully unsubscribed!" });
+      const { data, error } = await supabase
+        .from("subscribers")
+        .update({ is_active: false })
+        .eq("email", email)
+        .select("email");
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
       }
-      return res.status(400).json({ error: "Email not found in subscribers" });
+      if (!data || data.length === 0) {
+        return res
+          .status(400)
+          .json({ error: "Email not found in subscribers" });
+      }
+      return res.status(200).json({ message: "Successfully unsubscribed!" });
     }
   }
 
   if (req.method === "GET") {
-    const subscribers = getSubscribers();
-    return res.status(200).json({ subscribers });
+    const supabase = getSupabaseAdminClient();
+    const { data, error } = await supabase
+      .from("subscribers")
+      .select("email")
+      .eq("is_active", true)
+      .order("subscribed_at", { ascending: false });
+
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    return res
+      .status(200)
+      .json({ subscribers: (data || []).map((r) => r.email) });
   }
 
   return res.status(405).json({ error: "Method not allowed" });

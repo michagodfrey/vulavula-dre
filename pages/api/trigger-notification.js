@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   // Verify admin access
   const { secret } = req.body;
-  if (secret !== process.env.ADMIN_SECRET) {
+  if (secret !== process.env.NEXT_PUBLIC_ADMIN_SECRET) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 

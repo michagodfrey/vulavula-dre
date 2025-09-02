@@ -18,7 +18,7 @@ const getSubscribers = () => {
 const sendEmail = async (to, subject, html) => {
   try {
     const data = await resend.emails.send({
-      from: "Vulavula Dre <noreply@vulavula-dre.vercel.app>",
+      from: "Vulavula Dre <noreply@resend.dev>",
       to: [to],
       subject: subject,
       html: html,

@@ -7,20 +7,66 @@ const PostDetail = ({ post }) => {
   // Debug log to see post structure
   // console.log("Post data:", post);
 
+  // Replace any Noto Emoji CDN URLs in plain text with inline <img> tags
+  const replaceEmojiUrlsWithImages = (text, keyPrefix) => {
+    if (typeof text !== "string") return text;
+
+    const emojiUrlRegex =
+      /(https?:\/\/fonts\.gstatic\.com\/s\/e\/notoemoji\/[^\s'"<>]+?\.png(?:\?[^\s'"<>]*)?)/gi;
+
+    let match;
+    let lastIndex = 0;
+    const parts = [];
+
+    while ((match = emojiUrlRegex.exec(text)) !== null) {
+      const url = match[1];
+      const preceding = text.slice(lastIndex, match.index);
+      if (preceding) parts.push(preceding);
+
+      parts.push(
+        <img
+          key={`${keyPrefix}-emoji-${parts.length}`}
+          src={url}
+          alt="emoji"
+          width={20}
+          height={20}
+          className="inline-block align-text-bottom"
+        />
+      );
+
+      lastIndex = match.index + url.length;
+    }
+
+    const trailing = text.slice(lastIndex);
+    if (trailing) parts.push(trailing);
+
+    return parts.length === 0 ? text : parts;
+  };
+
   const getContentFragment = (index, text, obj, type) => {
     let modifiedText = text;
 
+    // If this node has children, build fragments from them to ensure nested structures (like lists) render
+    if (obj && Array.isArray(obj.children) && obj.children.length > 0) {
+      modifiedText = obj.children.map((child, childIndex) =>
+        getContentFragment(childIndex, child.text, child, child.type)
+      );
+    }
+
+    // Convert any Noto Emoji URLs present in raw text into <img> elements
+    modifiedText = replaceEmojiUrlsWithImages(modifiedText, index);
+
     if (obj) {
       if (obj.bold) {
-        modifiedText = <b key={index}>{text}</b>;
+        modifiedText = <b key={index}>{modifiedText}</b>;
       }
 
       if (obj.italic) {
-        modifiedText = <em key={index}>{text}</em>;
+        modifiedText = <em key={index}>{modifiedText}</em>;
       }
 
       if (obj.underline) {
-        modifiedText = <u key={index}>{text}</u>;
+        modifiedText = <u key={index}>{modifiedText}</u>;
       }
     }
 
@@ -58,6 +104,91 @@ const PostDetail = ({ post }) => {
             width={obj.width}
             src={obj.src}
           />
+        );
+      case "emoji":
+        return (
+          <img
+            key={index}
+            alt={obj.title || "emoji"}
+            height={obj.height || 20}
+            width={obj.width || 20}
+            src={obj.src || obj.url || (typeof text === "string" ? text : "")}
+            className="inline-block align-text-bottom"
+          />
+        );
+      case "bulleted-list":
+      case "unordered-list":
+        return (
+          <ul key={index} className="list-disc pl-6 mb-8">
+            {Array.isArray(modifiedText) ? (
+              modifiedText.map((item, i) => (
+                <li key={i} className="mb-2">
+                  {item}
+                </li>
+              ))
+            ) : (
+              <li className="mb-2">{modifiedText}</li>
+            )}
+          </ul>
+        );
+      case "numbered-list":
+      case "ordered-list":
+        return (
+          <ol key={index} className="list-decimal pl-6 mb-8">
+            {Array.isArray(modifiedText) ? (
+              modifiedText.map((item, i) => (
+                <li key={i} className="mb-2">
+                  {item}
+                </li>
+              ))
+            ) : (
+              <li className="mb-2">{modifiedText}</li>
+            )}
+          </ol>
+        );
+      case "list":
+        // Hygraph may send a generic list node with listType: 'unordered' | 'ordered'
+        if (
+          obj &&
+          (obj.listType === "unordered" || obj.format === "unordered")
+        ) {
+          return (
+            <ul key={index} className="list-disc pl-6 mb-8">
+              {Array.isArray(modifiedText) ? (
+                modifiedText.map((item, i) => (
+                  <li key={i} className="mb-2">
+                    {item}
+                  </li>
+                ))
+              ) : (
+                <li className="mb-2">{modifiedText}</li>
+              )}
+            </ul>
+          );
+        }
+        return (
+          <ol key={index} className="list-decimal pl-6 mb-8">
+            {Array.isArray(modifiedText) ? (
+              modifiedText.map((item, i) => (
+                <li key={i} className="mb-2">
+                  {item}
+                </li>
+              ))
+            ) : (
+              <li className="mb-2">{modifiedText}</li>
+            )}
+          </ol>
+        );
+      case "list-item":
+        // Return child content; wrapping into <li> is handled by list containers above
+        return (
+          <React.Fragment key={index}>
+            {Array.isArray(modifiedText)
+              ? modifiedText.map((item, i) => (
+                  <React.Fragment key={i}>{item}</React.Fragment>
+                ))
+              : modifiedText}
+          </React.Fragment>
         );
       case "block-quote":
         return (

@@ -19,6 +19,8 @@ const sendEmail = async (to, subject, html) => {
   }
 };
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -76,14 +78,28 @@ export default async function handler(req, res) {
     </div>
   `;
 
-  const emailPromises = subscribers.map((email) =>
-    sendEmail(email, `New Post: ${postTitle}`, emailHtml)
-  );
-
   try {
-    const results = await Promise.all(emailPromises);
-    const successfulSends = results.filter((result) => result.success).length;
-    const failedSends = results.filter((result) => !result.success).length;
+    // Throttle to comply with Resend's default 2 req/sec limit
+    // We send sequentially with a ~600ms delay between requests (~1.66 req/sec)
+    let successfulSends = 0;
+    let failedSends = 0;
+
+    for (let i = 0; i < subscribers.length; i++) {
+      const email = subscribers[i];
+      const result = await sendEmail(
+        email,
+        `New Post: ${postTitle}`,
+        emailHtml
+      );
+      if (result.success) {
+        successfulSends += 1;
+      } else {
+        failedSends += 1;
+      }
+      if (i < subscribers.length - 1) {
+        await sleep(650);
+      }
+    }
 
     console.log(
       `Email notification results: ${successfulSends} successful, ${failedSends} failed`

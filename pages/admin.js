@@ -5,6 +5,7 @@ export default function Admin() {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [revalidateSlug, setRevalidateSlug] = useState("");
 
   const triggerNotification = async () => {
     setLoading(true);
@@ -36,6 +37,33 @@ export default function Admin() {
       setLoading(false);
     }
   };
+
+const triggerRevalidate = async () => {
+  setLoading(true);
+  setStatus("");
+  try {
+    const s = revalidateSlug.trim();
+    const response = await fetch("/api/revalidate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        secret: process.env.NEXT_PUBLIC_ADMIN_SECRET || "your-secret",
+        slug: s || undefined,
+        path: s ? undefined : "/", // home when slug empty
+      }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setStatus(`Revalidated: ${data.path || `/post/${s}`}`);
+    } else {
+      setStatus(`Revalidate error: ${data.error}`);
+    }
+  } catch {
+    setStatus("Failed to revalidate");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -127,6 +155,28 @@ export default function Admin() {
               View Subscribers
             </a>
           </div>
+        </div>
+
+        <div className="mt-8 bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-xl mb-4 font-semibold">Revalidate ISR Cache</h2>
+          <p className="text-gray-600 mb-4">
+            Enter a post slug to revalidate its page (`/post/[slug]`). Leave
+            blank to revalidate the home page.
+          </p>
+          <input
+            type="text"
+            value={revalidateSlug}
+            onChange={(e) => setRevalidateSlug(e.target.value)}
+            placeholder="post-slug-here"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 mb-3"
+          />
+          <button
+            onClick={triggerRevalidate}
+            disabled={loading}
+            className="w-full bg-pink-600 text-white py-3 px-4 rounded-md hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+          >
+            {loading ? "Revalidating..." : "Revalidate"}
+          </button>
         </div>
       </div>
     </div>

@@ -61,7 +61,9 @@ export const getPostDetails = async (slug) => {
     const result = await request(graphqlAPI, query, { slug });
     return result.post;
   } catch (error) {
-    console.log(error.message);
+    // Bubble up errors so getStaticProps returns a 500 instead of a cached 404
+    // This prevents transient GraphQL/network issues from being permanently cached as notFound
+    throw error;
   }
 };
 

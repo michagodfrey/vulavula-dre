@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     // Trigger notification
     const notificationResponse = await fetch(
       `${
-        process.env.NEXT_PUBLIC_SITE_URL || "https://vulavula-dre.vercel.app"
+        process.env.NEXT_PUBLIC_SITE_URL || "https://www.vulavuladre.com"
       }/api/notify-subscribers`,
       {
         method: "POST",
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
         title: latestPost.title,
         slug: latestPost.slug,
         url: `${
-          process.env.NEXT_PUBLIC_SITE_URL || "https://vulavula-dre.vercel.app"
+          process.env.NEXT_PUBLIC_SITE_URL || "https://www.vulavuladre.com"
         }/post/${latestPost.slug}`,
       },
       subscribers: result.totalSubscribers,

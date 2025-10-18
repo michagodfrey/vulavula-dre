@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ message: "No subscribers to notify" });
   }
 
-  const postUrl = `https://vulavula-dre.vercel.app/post/${postSlug}`;
+  const postUrl = `https://www.vulavuladre.com/post/${postSlug}`;
 
   const emailHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -69,14 +69,15 @@ export default async function handler(req, res) {
             : ""
         }
         <p style="color: #333; margin-bottom: 20px;">A new post has been published on Vulavula Dre!</p>
+        <p style="color: #333; margin-bottom: 20px;">This email is unmonitored, please emai to Luke Uluiburotu at keluburotu@gmail.com</p>
         <a href="${postUrl}" style="display: inline-block; background-color: #ec4899; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Read Full Post</a>
       </div>
       
       <div style="text-align: center; color: #999; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
         <p>You're receiving this because you subscribed to Vulavula Dre blog updates.</p>
-        <p>To unsubscribe, reply to this email with "unsubscribe" in the subject line.</p>
+        <p>To unsubscribe, email m.godfrey59@gmail.com with the word "unsubscribe" in the subject line.</p>
         <p style="margin-top: 10px;">
-          <a href="https://vulavula-dre.vercel.app" style="color: #999;">Visit Vulavula Dre</a>
+          <a href="https://www.vulavuladre.com" style="color: #999;">Visit Vulavula Dre</a>
         </p>
       </div>
     </div>

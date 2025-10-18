@@ -2,7 +2,7 @@
 
 Vulavula Dre is a blog authored by Luke Uluiburoto. Vulavula Dre is the name of Luke's late great-grandfather in the Fijian villiage of Namalata Kubulau Bau.
 
-[Live site here](https://vulavula-dre.vercel.app/)
+[Vulavuladre.com](https://www.vulavuladre.com)
 
 ## Author
 
@@ -12,7 +12,7 @@ Luke Uluiburoro. Socials:
 * [X](https://x.com/keluburotu)
 * [Facebook](https://www.facebook.com/groups/510896943433875.uluiburotu.777)
 
-## Built with
+## Stack
 
 ### Tech
 
@@ -22,9 +22,9 @@ React, TailwindCSS, NextJS and GraphQL.
 
 Content is hosted on [Hygraph](https://hygraph.com/)
 
-### AI
+### Email Notifications
 
-ChatGPT-4o used to improve UI.
+Post notification emails sent out using [Resend](https://resend.com/)
 
 ## Acknowledgements and resources
 

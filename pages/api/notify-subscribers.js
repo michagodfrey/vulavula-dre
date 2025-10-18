@@ -2,14 +2,18 @@ import { Resend } from "resend";
 import { getSupabaseAdminClient } from "../../services/supabaseServer";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const RESEND_FROM =
+  process.env.RESEND_FROM || "Vulavula Dre <noreply@resend.dev>";
+const RESEND_REPLY_TO = process.env.RESEND_REPLY_TO || "keluburotu@gmail.com";
 
 const sendEmail = async (to, subject, html) => {
   try {
     const data = await resend.emails.send({
-      from: "Vulavula Dre <noreply@resend.dev>",
+      from: RESEND_FROM,
       to: [to],
       subject: subject,
       html: html,
+      reply_to: RESEND_REPLY_TO,
     });
     console.log(`Email sent to ${to}:`, data);
     return { success: true, data };
